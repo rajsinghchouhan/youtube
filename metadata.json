@@ -1,0 +1,6 @@
+{
+  "name": "YouTuber Experts — 5,000+ Hindi Cartoon Video Bundle",
+  "description": "Fast, mobile-first creator platform offering 5,000+ ready-to-upload Hindi cartoon story videos, custom high-CTR thumbnails, and YouTube SEO kits.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
