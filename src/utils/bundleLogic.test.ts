@@ -83,13 +83,13 @@ test('filterCartoonVideos filters by category and Hindi/English search terms', (
   assert.equal(searchTag[0].id, 'v2');
 });
 
-test('calculateCheckoutSummary computes base ₹197 offer, bumps, and coupon code discounts', () => {
+test('calculateCheckoutSummary computes base ₹199 offer, bumps, and coupon code discounts', () => {
   const base = calculateCheckoutSummary({
     includeReelsBump: false,
     includeSeoBump: false,
     couponCode: '',
   });
-  assert.equal(base.finalTotal, 197);
+  assert.equal(base.finalTotal, 199);
   assert.equal(base.discountPercentage, 90);
 
   const withBumpsAndCoupon = calculateCheckoutSummary({
@@ -97,8 +97,8 @@ test('calculateCheckoutSummary computes base ₹197 offer, bumps, and coupon cod
     includeSeoBump: true,
     couponCode: 'expert20',
   });
-  // 197 + 99 + 49 - 20 = 325
-  assert.equal(withBumpsAndCoupon.finalTotal, 325);
+  // 199 + 99 + 49 - 20 = 327
+  assert.equal(withBumpsAndCoupon.finalTotal, 327);
   assert.equal(withBumpsAndCoupon.appliedCoupon, 'EXPERT20');
 });
 

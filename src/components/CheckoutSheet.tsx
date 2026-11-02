@@ -205,7 +205,7 @@ export const CheckoutSheet: React.FC<CheckoutSheetProps> = ({
               </div>
               <div className="text-right shrink-0 font-mono-num">
                 <div className="text-xs text-zinc-400 line-through">₹1,999</div>
-                <div className="text-lg font-extrabold text-amber-500">₹197</div>
+                <div className="text-lg font-extrabold text-amber-500">₹199</div>
               </div>
             </div>
 

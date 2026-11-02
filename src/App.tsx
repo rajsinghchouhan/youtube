@@ -23,23 +23,23 @@ import {
 } from './data/bundleData';
 import { WistiaVideoPlayer } from './components/WistiaVideoPlayer';
 import { EarningsCalculator } from './components/EarningsCalculator';
-import { CheckoutSheet } from './components/CheckoutSheet';
+import { CHECKOUT_URL } from './utils/bundleLogic';
 
 type PolicyType = 'contact' | 'terms' | 'privacy' | 'disclaimer' | 'refund' | null;
 
 interface OfferCtaBlockProps {
   minutesStr: string;
   secondsStr: string;
-  onBuyClick: () => void;
   testId?: string;
 }
 
 const OfferCtaBlock: React.FC<OfferCtaBlockProps> = ({
   minutesStr,
   secondsStr,
-  onBuyClick,
   testId,
 }) => {
+  const isIframe = typeof window !== 'undefined' && window.self !== window.top;
+
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col items-center space-y-3">
       {/* Single-line Countdown Timer RIGHT ABOVE the Buy Now button */}
@@ -53,33 +53,34 @@ const OfferCtaBlock: React.FC<OfferCtaBlockProps> = ({
         </span>
       </div>
 
-      {/* Buy Now Button */}
-      <button
-        type="button"
+      {/* Direct Buy Now Link Button */}
+      <a
+        href={CHECKOUT_URL}
+        target={isIframe ? '_blank' : undefined}
+        rel="noopener noreferrer"
         data-testid={testId}
-        onClick={onBuyClick}
-        className="w-full min-h-[56px] px-5 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 active:scale-[0.99] text-zinc-950 flex flex-col items-center justify-center shadow-lg shadow-amber-500/20 cursor-pointer transition-all"
+        className="w-full min-h-[56px] px-5 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 active:scale-[0.99] text-zinc-950 flex flex-col items-center justify-center shadow-lg shadow-amber-500/20 cursor-pointer transition-all no-underline"
       >
         <div className="flex items-center gap-2 text-base sm:text-lg font-extrabold whitespace-nowrap">
           <span>Buy Now Only</span>
           <span className="line-through opacity-75 font-mono-num text-sm">₹1999</span>
-          <span className="font-mono-num text-xl sm:text-2xl">₹197</span>
+          <span className="font-mono-num text-xl sm:text-2xl">₹199</span>
           <ArrowRight className="w-5 h-5 shrink-0" />
         </div>
         <span className="text-[11px] sm:text-xs font-semibold opacity-90 whitespace-nowrap mt-0.5">
           Last Chance • 90% off • Ending today
         </span>
-      </button>
+      </a>
     </div>
   );
 };
 
 export default function App() {
-  const [lang, setLang] = useState<'hi' | 'en'>('hi');
+  const [lang] = useState<'hi' | 'en'>('hi');
   const [darkMode, setDarkMode] = useState<boolean>(true);
   const [openFaqId, setOpenFaqId] = useState<string>('faq-1');
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
   const [activePolicy, setActivePolicy] = useState<PolicyType>(null);
+  const isIframe = typeof window !== 'undefined' && window.self !== window.top;
 
   // Offer countdown timer (starts at 13m 06s)
   const [secondsLeft, setSecondsLeft] = useState<number>(13 * 60 + 6);
@@ -157,13 +158,14 @@ export default function App() {
               <Moon className="w-4 h-4" />
             )}
           </button>
-          <button
-            type="button"
-            onClick={() => setIsCheckoutOpen(true)}
-            className="min-h-[40px] px-4 py-2 text-xs sm:text-sm font-bold text-zinc-950 bg-amber-500 hover:bg-amber-400 rounded-xl transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+          <a
+            href={CHECKOUT_URL}
+            target={isIframe ? '_blank' : undefined}
+            rel="noopener noreferrer"
+            className="min-h-[40px] px-4 py-2 text-xs sm:text-sm font-bold text-zinc-950 bg-amber-500 hover:bg-amber-400 rounded-xl transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center justify-center no-underline"
           >
-            Buy Now • ₹197
-          </button>
+            Buy Now • ₹199
+          </a>
         </div>
       </header>
 
@@ -227,12 +229,11 @@ export default function App() {
               </li>
             </ul>
 
-            {/* 1-Line Timer RIGHT ABOVE Buy Now Only ₹197 Button */}
+            {/* 1-Line Timer RIGHT ABOVE Buy Now Only ₹199 Button */}
             <div className="mt-7">
               <OfferCtaBlock
                 minutesStr={minutesStr}
                 secondsStr={secondsStr}
-                onBuyClick={() => setIsCheckoutOpen(true)}
                 testId="hero-buy-btn"
               />
             </div>
@@ -265,7 +266,6 @@ export default function App() {
             <OfferCtaBlock
               minutesStr={minutesStr}
               secondsStr={secondsStr}
-              onBuyClick={() => setIsCheckoutOpen(true)}
             />
           </div>
         </section>
@@ -303,7 +303,6 @@ export default function App() {
               <OfferCtaBlock
                 minutesStr={minutesStr}
                 secondsStr={secondsStr}
-                onBuyClick={() => setIsCheckoutOpen(true)}
               />
             </div>
           </div>
@@ -454,7 +453,6 @@ export default function App() {
               <OfferCtaBlock
                 minutesStr={minutesStr}
                 secondsStr={secondsStr}
-                onBuyClick={() => setIsCheckoutOpen(true)}
               />
             </div>
           </div>
@@ -513,7 +511,6 @@ export default function App() {
               <OfferCtaBlock
                 minutesStr={minutesStr}
                 secondsStr={secondsStr}
-                onBuyClick={() => setIsCheckoutOpen(true)}
               />
             </div>
           </div>
@@ -522,7 +519,7 @@ export default function App() {
         {/* Interactive Earnings Calculator */}
         <EarningsCalculator
           lang={lang}
-          onOpenCheckout={() => setIsCheckoutOpen(true)}
+          checkoutUrl={CHECKOUT_URL}
         />
 
         {/* Section: Interactive FAQ Accordion */}
@@ -630,7 +627,7 @@ export default function App() {
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 h-16 px-4 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 flex items-center justify-between gap-3">
         <div className="min-w-0">
           <div className="flex items-baseline gap-1.5 font-mono-num">
-            <span className="text-lg font-extrabold text-amber-400">₹197</span>
+            <span className="text-lg font-extrabold text-amber-400">₹199</span>
             <span className="text-xs text-zinc-500 line-through">₹1,999</span>
             <span className="text-[11px] text-emerald-400 font-semibold">90% OFF</span>
           </div>
@@ -639,22 +636,16 @@ export default function App() {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setIsCheckoutOpen(true)}
-          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-amber-500 active:bg-amber-400 text-zinc-950 font-extrabold text-xs flex items-center gap-1.5 shrink-0 cursor-pointer whitespace-nowrap"
+        <a
+          href={CHECKOUT_URL}
+          target={isIframe ? '_blank' : undefined}
+          rel="noopener noreferrer"
+          className="min-h-[44px] px-5 py-2.5 rounded-xl bg-amber-500 active:bg-amber-400 text-zinc-950 font-extrabold text-xs flex items-center gap-1.5 shrink-0 cursor-pointer whitespace-nowrap no-underline"
         >
-          <span>Buy Now ₹197</span>
+          <span>Buy Now ₹199</span>
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </a>
       </div>
-
-      {/* Checkout Bottom Sheet / Modal */}
-      <CheckoutSheet
-        isOpen={isCheckoutOpen}
-        onClose={() => setIsCheckoutOpen(false)}
-        lang={lang}
-      />
 
       {/* Policy Modal */}
       {activePolicy && (

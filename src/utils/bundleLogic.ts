@@ -141,9 +141,11 @@ export function filterCartoonVideos(
   });
 }
 
+export const CHECKOUT_URL = 'https://superprofile.bio/vp/cartoon-videos2026?checkout=true';
+
 export function calculateCheckoutSummary(options: CheckoutOptions): CheckoutSummary {
   const originalPrice = 1999;
-  const baseOfferPrice = 197;
+  const baseOfferPrice = 199;
   const reelsBumpPrice = options.includeReelsBump ? 99 : 0;
   const seoBumpPrice = options.includeSeoBump ? 49 : 0;
   const bumpsTotal = reelsBumpPrice + seoBumpPrice;

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Calculator, TrendingUp, Clock, Users, ArrowRight } from 'lucide-react';
-import { calculateEarnings, formatInr } from '../utils/bundleLogic';
+import { Calculator, Clock, Users, ArrowRight } from 'lucide-react';
+import { calculateEarnings, formatInr, CHECKOUT_URL } from '../utils/bundleLogic';
 
 interface EarningsCalculatorProps {
   lang: 'hi' | 'en';
-  onOpenCheckout: () => void;
+  checkoutUrl?: string;
 }
 
 export const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
   lang,
-  onOpenCheckout,
+  checkoutUrl = CHECKOUT_URL,
 }) => {
   const [videosPerWeek, setVideosPerWeek] = useState<number>(7);
   const [avgViewsPerVideo, setAvgViewsPerVideo] = useState<number>(85000);
@@ -259,18 +259,19 @@ export const EarningsCalculator: React.FC<EarningsCalculatorProps> = ({
             </div>
 
             <div className="mt-6 pt-5 border-t border-zinc-800">
-              <button
-                type="button"
-                onClick={onOpenCheckout}
+              <a
+                href={checkoutUrl}
+                target={typeof window !== 'undefined' && window.self !== window.top ? '_blank' : undefined}
+                rel="noopener noreferrer"
                 className="w-full min-h-[48px] px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-[0.99] cursor-pointer whitespace-nowrap"
               >
                 <span>
                   {lang === 'hi'
-                    ? `अभी 5,000+ कार्टून बंडल लें — सिर्फ ${formatInr(197)}`
-                    : `Unlock 5,000+ Videos Now — Only ${formatInr(197)}`}
+                    ? `अभी 5,000+ कार्टून बंडल लें — सिर्फ ${formatInr(199)}`
+                    : `Unlock 5,000+ Videos Now — Only ${formatInr(199)}`}
                 </span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
-              </button>
+              </a>
             </div>
           </div>
         </div>
