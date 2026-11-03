@@ -38,11 +38,14 @@ jobs:
       - name: Build project
         run: |
           npm run build
+          mkdir -p dist/dist-gh
+          cp dist/assets/app.js dist/dist-gh/app.js
+          cp dist/assets/app.css dist/dist-gh/app.css
           cp dist/index.html dist/404.html
           touch dist/.nojekyll
 
       - name: Wait for branch pages build if active
-        run: sleep 18
+        run: sleep 25
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
